@@ -71,9 +71,9 @@ function showResults(resultDate, weekendDates, holidays, workingDates, holidaysD
         detailsContainer.appendChild(createDetailSection('Holidays', holidays.length, holidays.map(holiday => formatHolidayDetail(holiday, holidaysData[holiday]))));
     }
 
-    if (workingDates.length > 0) {
-        detailsContainer.appendChild(createDetailSection('Working Days', workingDates.length, workingDates.map(formatDateDetail)));
-    }
+    // if (workingDates.length > 0) {
+    //     detailsContainer.appendChild(createDetailSection('Working Days', workingDates.length, workingDates.map(formatDateDetail)));
+    // }
 }
 
 function createDetailSection(title, count, details) {
@@ -81,7 +81,7 @@ function createDetailSection(title, count, details) {
     section.className = 'details-section';
     const titleEl = document.createElement('div');
     titleEl.className = 'details-title';
-    titleEl.textContent = `${title} (${count})`;
+    const titleText = `${count} ${title}${count !== 1 ? 's' : ''}`;
     titleEl.onclick = () => {
         titleEl.classList.toggle('active');
         contentEl.classList.toggle('active'); // Show/hide the details
