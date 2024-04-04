@@ -15,10 +15,28 @@
         <label for="daysToAdd">Number of Working Days to Add:</label>
         <input type="number" id="daysToAdd" name="daysToAdd" min="1" required>
         
-        <button id="calculateBtn">Calculate</button>
+        <div id="weekendSelection" class="weekend-selection">
+            <label>Select Weekends:</label>
+            <div class="weekend-buttons">
+                <input type="checkbox" id="sun" name="weekend" value="0"><label for="sun" class="btn">Sun</label>
+                <input type="checkbox" id="mon" name="weekend" value="1"><label for="mon" class="btn">Mon</label>
+                <input type="checkbox" id="tue" name="weekend" value="2"><label for="tue" class="btn">Tue</label>
+                <input type="checkbox" id="wed" name="weekend" value="3"><label for="wed" class="btn">Wed</label>
+                <input type="checkbox" id="thu" name="weekend" value="4"><label for="thu" class="btn">Thu</label>
+                <input type="checkbox" id="fri" name="weekend" value="5" checked><label for="fri" class="btn">Fri</label>
+                <input type="checkbox" id="sat" name="weekend" value="6" checked><label for="sat" class="btn">Sat</label>
+            </div>
+        </div>
         
-        <h2>Result:</h2>
-        <div id="result"></div>
+        
+        <button id="calculateBtn">Calculate</button>
+
+        <div id="resultDate" class="result-date"></div>
+        <div id="detailsContainer" class="details-container">
+            <div id="weekendDetails" class="details-section"></div>
+            <div id="holidayDetails" class="details-section"></div>
+            <div id="workingDayDetails" class="details-section"></div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
