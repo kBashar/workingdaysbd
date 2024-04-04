@@ -1,11 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const publicHolidays = ['2024-05-01', '2024-07-04', '2024-12-25']; // Example public holidays
+    let publicHolidays = {};
+
+    // Load public holidays from the JSON file
+    fetch('holidays.json')
+        .then(response => response.json())
+        .then(data => {
+            publicHolidays = data;
+            console.log('Public Holidays Loaded:', publicHolidays);
+        })
+        .catch(error => console.error('Error loading public holidays:', error));
+
+    // Set the start date to today
     document.getElementById('startDate').valueAsDate = new Date();
 
     document.getElementById('calculateBtn').addEventListener('click', () => {
         const startDate = document.getElementById('startDate').value;
         const daysToAdd = parseInt(document.getElementById('daysToAdd').value);
-        const resultDate = calculateWorkingDays(startDate, daysToAdd, publicHolidays);
+        const resultDate = calculateWorkingDays(startDate, daysToAdd, Object.keys(publicHolidays));
         document.getElementById('result').textContent = `Result Date: ${resultDate}`;
     });
 });
