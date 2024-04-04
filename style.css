@@ -147,6 +147,11 @@ button:hover {
     display: block;
 }
 
+.details-indicator {
+    font-size: 0.8em; /* Adjust size as needed */
+    margin-right: 5px;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
     body {

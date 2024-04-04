@@ -64,11 +64,11 @@ function showResults(resultDate, weekendDates, holidays, workingDates, holidaysD
 
     // Conditionally show sections
     if (weekendDates.length > 0) {
-        detailsContainer.appendChild(createDetailSection('Weekends', weekendDates.length, weekendDates.map(formatDateDetail)));
+        detailsContainer.appendChild(createDetailSection('Weekend', weekendDates.length, weekendDates.map(formatDateDetail)));
     }
 
     if (holidays.length > 0) {
-        detailsContainer.appendChild(createDetailSection('Holidays', holidays.length, holidays.map(holiday => formatHolidayDetail(holiday, holidaysData[holiday]))));
+        detailsContainer.appendChild(createDetailSection('Holiday', holidays.length, holidays.map(holiday => formatHolidayDetail(holiday, holidaysData[holiday]))));
     }
 
     // if (workingDates.length > 0) {
@@ -78,13 +78,27 @@ function showResults(resultDate, weekendDates, holidays, workingDates, holidaysD
 
 function createDetailSection(title, count, details) {
     const section = document.createElement('div');
-    section.className = 'details-section';
+    section.className = 'details-section has-details';
+    
+    // Add correct pluralization
+    const titleText = `${count} ${title}${count !== 1 ? 's' : ''}`;
+    
+    // Create the expand/collapse indicator
+    const indicator = document.createElement('span');
+    indicator.textContent = '▼'; // Downward triangle for collapsed
+    indicator.className = 'details-indicator';
+
     const titleEl = document.createElement('div');
     titleEl.className = 'details-title';
-    const titleText = `${count} ${title}${count !== 1 ? 's' : ''}`;
+    titleEl.appendChild(indicator); // Append the indicator to the title
+    const textNode = document.createTextNode(' ' + titleText);
+    titleEl.appendChild(textNode); // Append the title text
+
     titleEl.onclick = () => {
         titleEl.classList.toggle('active');
         contentEl.classList.toggle('active'); // Show/hide the details
+        // Change the indicator based on whether the section is expanded or collapsed
+        indicator.textContent = titleEl.classList.contains('active') ? '▲' : '▼';
     };
     section.appendChild(titleEl);
 
