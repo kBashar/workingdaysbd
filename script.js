@@ -17,9 +17,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const weekends = Array.from(document.querySelectorAll('input[name="weekend"]:checked')).map(el => parseInt(el.value));
         const results = calculateWorkingDaysDetailed(startDate, daysToAdd, Object.keys(publicHolidays), weekends, publicHolidays);
         
-        showResults(results.resultDate, results.weekendDates, results.holidays, results.workingDates, publicHolidays);
+        const formattedResultDate = formatDate(results.resultDate);
+        showResults(formattedResultDate, results.weekendDates, results.holidays, results.workingDates, publicHolidays);
     });
 });
+
+function formatDate(isoString) {
+    const date = new Date(isoString);
+    return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+}
 
 function calculateWorkingDaysDetailed(startDate, daysToAdd, publicHolidays, weekends, holidaysData) {
     let currentDate = new Date(startDate);
@@ -113,19 +119,18 @@ function createDetailSection(title, count, details) {
 }
 
 function formatDateDetail(dateString) {
-    const date = new Date(dateString);
-    const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+    const formattedDate = formatDate(dateString);
+    const dayName = new Date(dateString).toLocaleDateString('en-US', { weekday: 'long' });
     const p = document.createElement('p');
-    p.textContent = `${dateString} - ${dayName}`;
+    p.textContent = `${formattedDate} - ${dayName}`;
     return p;
 }
 
 function formatHolidayDetail(dateString, holiday) {
-    const date = new Date(dateString);
-    const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
+    const formattedDate = formatDate(dateString);
+    const dayName = new Date(dateString).toLocaleDateString('en-US', { weekday: 'long' });
     const p = document.createElement('p');
-    p.textContent = `${dateString} - ${dayName}, ${holiday.Name} (${holiday.Type})`;
+    p.textContent = `${formattedDate} - ${dayName}, ${holiday.Name} (${holiday.Type})`;
     return p;
 }
-
 // ... additional functions as needed ...
