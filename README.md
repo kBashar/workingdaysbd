@@ -7,7 +7,7 @@ This is a late night Pair programming with Chatgpt To develop an static web appl
 
 I started 1:30AM and Now it 03:43AM. The end result looks like 
 
-![Screeshot](/imgs/working%20days%20calculator.png)
+![Screeshot](/imgs/working%20days.png)
 
 Observations:  
 1. With clear and incremental instructions, coding with ChatGPT is way faster than I imagined.
