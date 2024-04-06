@@ -2,8 +2,8 @@
     "manifest_version": 2,
     "name": "Working Days Calculator",
     "description": "Calculate working days excluding weekends and public holidays.",
-    "version": "1.0",
-    "permissions": ["activeTab"],
+    "version": "2024.1.0",
+    "permissions": ["storage"],
     "browser_action": {
       "default_popup": "popup.html",
       "default_icon": {
@@ -16,6 +16,9 @@
       "16": "icons/icon16.png",
       "48": "icons/icon48.png",
       "128": "icons/icon128.png"
+    },
+    "author": {
+      "email": "khyrulbashar.0.1@gmail.com"
     }
   }
   
