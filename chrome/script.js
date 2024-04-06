@@ -73,7 +73,9 @@ function calculateWorkingDaysDetailed(startDate, daysToAdd, publicHolidays, week
 }
 
 function showResults(resultDate, weekendDates, holidays, workingDates, holidaysData) {
-    document.getElementById('resultDate').textContent = formatDate(resultDate);
+    const dayName = new Date(formatDate(resultDate)).toLocaleDateString('en-US', { weekday: 'long' });
+    const result_date_str = `${formatDate(resultDate)} (${dayName})`
+    document.getElementById('resultDate').textContent = result_date_str;
 
     // Clear previous details
     const detailsContainer = document.getElementById('detailsContainer');
