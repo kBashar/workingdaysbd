@@ -12,6 +12,7 @@ body {
     padding: 20px;
     background-color: #f4f4f4;
     color: #333;
+    width: 350px;
 }
 
 .container {
@@ -173,6 +174,7 @@ button#calculateBtn:hover {
     background-color: #0056b3; /* Darken the button on hover for better interaction feedback */
 }
 
+
 .details-table {
     width: 100%;
     border-collapse: collapse;
@@ -198,6 +200,7 @@ button#calculateBtn:hover {
 .details-table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
 
 /* Responsive Design */
 @media (max-width: 600px) {

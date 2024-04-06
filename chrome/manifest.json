@@ -1,0 +1,21 @@
+{
+    "manifest_version": 2,
+    "name": "Working Days Calculator",
+    "description": "Calculate working days excluding weekends and public holidays.",
+    "version": "1.0",
+    "permissions": ["activeTab"],
+    "browser_action": {
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+      }
+    },
+    "icons": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  }
+  
