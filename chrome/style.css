@@ -12,7 +12,7 @@ body {
     padding: 20px;
     background-color: #f4f4f4;
     color: #333;
-    width: 500px;
+    width: 400px;
 }
 
 .container {
@@ -210,5 +210,22 @@ button#calculateBtn:hover {
 
     .container {
         padding: 15px;
+    }
+}
+
+/* Media query for container with max-width of 400px */
+@media (max-width: 450px) {
+    .weekend-buttons label {
+        flex: 1 1 22%; /* Adjust the flex-basis to 48% for each button */
+    }
+
+    /* Target the first 4 labels (Sun, Mon, Tue, Wed) to make sure they fit in one line */
+    .weekend-buttons label:nth-child(-n+4) {
+        flex-basis: 25%; /* Adjust basis to 48% to ensure two lines */
+    }
+    
+    /* Optionally, you can adjust the margins for a better fit */
+    .weekend-buttons label:not(:nth-last-child(-n+3)) {
+        margin-bottom: 5px; /* Add margin to all but the last three buttons */
     }
 }
