@@ -9,13 +9,31 @@
 <body>
     <div class="container">
         <h1>Working Days Calculator</h1>
-        <label for="startDate">Start Date (default is today):</label>
-        <input type="date" id="startDate" name="startDate" required>
+        <div id="calculationMode">
+            <input type="radio" id="workingDaysMode" name="calculationMode" value="workingDays" checked>
+            <label for="workingDaysMode">Working Days</label>
         
-        <label for="daysToAdd">Number of Working Days to Add:</label>
-        <input type="number" id="daysToAdd" name="daysToAdd" min="1" required>
-        <div id="daysToAddError" class="error-message"></div>
-        
+            <input type="radio" id="deadlineMode" name="calculationMode" value="deadline">
+            <label for="deadlineMode">Deadline</label>
+        </div>
+        <div id="workingDaysCalculation">
+            <label for="startDate">Start Date (default is today):</label>
+            <input type="date" id="startDate" name="startDate" required>
+            
+            <label for="daysToAdd">Number of Working Days to Add:</label>
+            <input type="number" id="daysToAdd" name="daysToAdd" min="1" required>
+            <div id="daysToAddError" class="error-message"></div>
+        </div>
+
+        <div id="deadlineCalculation" style="display: none;">
+            <label for="deadlineStartDate">Start Date:</label>
+            <input type="date" id="deadlineStartDate" name="deadlineStartDate" required>
+            
+            <label for="deadlineEndDate">End Date:</label>
+            <input type="date" id="deadlineEndDate" name="deadlineEndDate" required>
+            <div id="deadlineError" class="error-message"></div>
+        </div>
+
         <div id="weekendSelection" class="weekend-selection">
             <label>Select Weekends:</label>
             <div class="weekend-buttons">

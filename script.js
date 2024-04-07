@@ -9,8 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error loading public holidays:', error));
 
-    document.getElementById('startDate').valueAsDate = new Date();
-
     document.getElementById('calculateBtn').addEventListener('click', () => {
         const startDate = document.getElementById('startDate').value;
         const daysToAddError = document.getElementById('daysToAddError');
@@ -30,6 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const formattedResultDate = formatDate(results.resultDate);
         showResults(formattedResultDate, results.weekendDates, results.holidays, results.workingDates, publicHolidays);
+    });
+    document.querySelectorAll('input[name="calculationMode"]').forEach(radio => {
+        radio.addEventListener('change', handleModeChange);
     });
 });
 
@@ -161,4 +162,21 @@ function createDetailsTable(details, isHoliday = false, holidaysData = {}) {
     
     return table;
 }
-// ... additional functions as needed ...
+
+function handleModeChange(event) {
+    const mode = event.target.value;
+    const workingDaysDiv = document.getElementById('workingDaysCalculation');
+    const deadlineDiv = document.getElementById('deadlineCalculation');
+
+    if (mode === 'workingDays') {
+        workingDaysDiv.style.display = 'block'; // Show working days calculation div
+        deadlineDiv.style.display = 'none';     // Hide deadline calculation div
+        document.getElementById('startDate').valueAsDate = new Date();
+    } else if (mode === 'deadline') {
+        workingDaysDiv.style.display = 'none';  // Hide working days calculation div
+        deadlineDiv.style.display = 'block';    // Show deadline calculation div
+        document.getElementById('deadlineStartDate').valueAsDate = new Date();
+
+    }
+    // Reset or adjust other UI elements as necessary
+}
