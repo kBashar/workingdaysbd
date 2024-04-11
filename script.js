@@ -1,6 +1,7 @@
-document.addEventListener('DOMContentLoaded', () => {
-    let publicHolidays = {};
+var publicHolidays = {};
+var selectedMode = "workingDays"
 
+document.addEventListener('DOMContentLoaded', () => {
     // Load public holidays from the JSON file
     fetch('holidays.json')
         .then(response => response.json())
@@ -8,35 +9,98 @@ document.addEventListener('DOMContentLoaded', () => {
             publicHolidays = data;
         })
         .catch(error => console.error('Error loading public holidays:', error));
-
-    document.getElementById('calculateBtn').addEventListener('click', () => {
-        const startDate = document.getElementById('startDate').value;
-        const daysToAddError = document.getElementById('daysToAddError');
-        const daysToAddInput = document.getElementById('daysToAdd');
-        const daysToAdd = parseInt(daysToAddInput.value);
-
-        // Clear previous error message
-        daysToAddError.textContent = '';
-
-        // Validate input
-        if (!daysToAdd || daysToAdd < parseInt(daysToAddInput.min, 10)) {
-            daysToAddError.textContent = 'Please enter a valid number of days to add.';
-            return; // Prevent the calculation from proceeding
-        }
-        const weekends = Array.from(document.querySelectorAll('input[name="weekend"]:checked')).map(el => parseInt(el.value));
-        const results = calculateWorkingDaysDetailed(startDate, daysToAdd, Object.keys(publicHolidays), weekends, publicHolidays);
-        
-        const formattedResultDate = formatDate(results.resultDate);
-        showResults(formattedResultDate, results.weekendDates, results.holidays, results.workingDates, publicHolidays);
-    });
-    document.querySelectorAll('input[name="calculationMode"]').forEach(radio => {
+    document.getElementById('startDate').valueAsDate = new Date();
+    document.getElementById('calculateBtn').addEventListener('click', calculate);
+    document.querySelectorAll('input[name="calculation-mode"]').forEach(radio => {
         radio.addEventListener('change', handleModeChange);
     });
 });
 
+function calculate(){
+    if (selectedMode === 'workingDays') {
+        calculateWorkingDays()
+    } else if (selectedMode === 'deadline') {
+        calculateDeadline()
+    }
+}
+
+function calculateDeadline(){
+    const startDate = document.getElementById('deadlineStartDate').value;
+    const deadlineError = document.getElementById('deadlineError');
+    const deadlineEndDate = document.getElementById('deadlineEndDate').value;
+
+    // Clear previous error message
+    deadlineError.textContent = '';
+
+    // Validate input
+    if (!deadlineEndDate || deadlineEndDate < startDate) {
+        deadlineError.textContent = 'Please enter a valid date.';
+        return; // Prevent the calculation from proceeding
+    }
+    const weekends = Array.from(document.querySelectorAll('input[name="weekend"]:checked')).map(el => parseInt(el.value));
+    const results = calculateDeadlineDetailed(startDate, deadlineEndDate, Object.keys(publicHolidays), weekends);
+    
+    const workingDaysStr = workingDaysCountStr(results.workingDaysCount)
+    showResults(workingDaysStr, results.weekendDates, results.holidays, results.workingDates, publicHolidays);
+}
+
+function calculateWorkingDays(){
+    const startDate = document.getElementById('startDate').value;
+    const daysToAddError = document.getElementById('daysToAddError');
+    const daysToAddInput = document.getElementById('daysToAdd');
+    const daysToAdd = parseInt(daysToAddInput.value);
+
+    // Clear previous error message
+    daysToAddError.textContent = '';
+
+    // Validate input
+    if (!daysToAdd || daysToAdd < parseInt(daysToAddInput.min, 10)) {
+        daysToAddError.textContent = 'Please enter a valid number of days to add.';
+        return; // Prevent the calculation from proceeding
+    }
+    const weekends = Array.from(document.querySelectorAll('input[name="weekend"]:checked')).map(el => parseInt(el.value));
+    const results = calculateWorkingDaysDetailed(startDate, daysToAdd, Object.keys(publicHolidays), weekends, publicHolidays);
+    
+    const formattedResultDate = formatDate(results.resultDate);
+    const result_date_str = resultDateStr(formattedResultDate)
+    showResults(result_date_str, results.weekendDates, results.holidays, results.workingDates, publicHolidays);
+}
+
 function formatDate(isoString) {
     const date = new Date(isoString);
     return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' });
+}
+
+function calculateDeadlineDetailed(startDate, deadlineEndDate, publicHolidays, weekends){
+    let currentDate = new Date(startDate);
+    deadlineEndDate = new Date(deadlineEndDate)
+    let holidaysCounted = [];
+    let weekendDates = [];
+    let workingDates = [];
+    console.log(deadlineEndDate)
+    while (deadlineEndDate >= currentDate) {
+        console.log(deadlineEndDate)
+        let dayOfWeek = currentDate.getDay();
+        let dateString = currentDate.toISOString().split('T')[0];
+        let isWeekend = weekends.includes(dayOfWeek);
+        let isPublicHoliday = publicHolidays.includes(dateString);
+
+        if (isWeekend) {
+            weekendDates.push(dateString);
+        } else if (isPublicHoliday) {
+            holidaysCounted.push(dateString);
+        } else {
+            workingDates.push(dateString);
+        }
+        currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return {
+        workingDaysCount: workingDates.length,
+        holidays: holidaysCounted,
+        weekendDates,
+        workingDates
+    };
 }
 
 function calculateWorkingDaysDetailed(startDate, daysToAdd, publicHolidays, weekends, holidaysData) {
@@ -73,10 +137,20 @@ function calculateWorkingDaysDetailed(startDate, daysToAdd, publicHolidays, week
     };
 }
 
-function showResults(resultDate, weekendDates, holidays, workingDates, holidaysData) {
+function workingDaysCountStr(day_count){
+    const result_date_str = `${day_count} days`
+    return result_date_str
+}
+
+function resultDateStr(resultDate){
     const dayName = new Date(formatDate(resultDate)).toLocaleDateString('en-US', { weekday: 'long' });
     const result_date_str = `${formatDate(resultDate)} (${dayName})`
-    document.getElementById('resultDate').textContent = result_date_str;
+    return result_date_str
+}
+
+function showResults(result_str, weekendDates, holidays, workingDates, holidaysData) {
+
+    document.getElementById('resultDate').textContent = result_str;
 
     // Clear previous details
     const detailsContainer = document.getElementById('detailsContainer');
@@ -172,11 +246,12 @@ function handleModeChange(event) {
         workingDaysDiv.style.display = 'block'; // Show working days calculation div
         deadlineDiv.style.display = 'none';     // Hide deadline calculation div
         document.getElementById('startDate').valueAsDate = new Date();
+        selectedMode = "workingDays"
     } else if (mode === 'deadline') {
         workingDaysDiv.style.display = 'none';  // Hide working days calculation div
         deadlineDiv.style.display = 'block';    // Show deadline calculation div
         document.getElementById('deadlineStartDate').valueAsDate = new Date();
-
+        selectedMode = "deadline"
     }
     // Reset or adjust other UI elements as necessary
 }

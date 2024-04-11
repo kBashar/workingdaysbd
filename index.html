@@ -9,12 +9,15 @@
 <body>
     <div class="container">
         <h1>Working Days Calculator</h1>
-        <div id="calculationMode">
-            <input type="radio" id="workingDaysMode" name="calculationMode" value="workingDays" checked>
-            <label for="workingDaysMode">Working Days</label>
-        
-            <input type="radio" id="deadlineMode" name="calculationMode" value="deadline">
-            <label for="deadlineMode">Deadline</label>
+        <div id="calculation-mode">
+            <div class="radio-button-container" onclick="document.getElementById('workingDaysMode').click();">
+                <input type="radio" id="workingDaysMode" name="calculation-mode" value="workingDays" checked>
+                <label for="workingDaysMode">Working Days</label>
+            </div>
+            <div class="radio-button-container" onclick="document.getElementById('deadlineMode').click();">
+                <input type="radio" id="deadlineMode" name="calculation-mode" value="deadline">
+                <label for="deadlineMode">Deadline</label>
+            </div>
         </div>
         <div id="workingDaysCalculation">
             <label for="startDate">Start Date (default is today):</label>
@@ -26,10 +29,10 @@
         </div>
 
         <div id="deadlineCalculation" style="display: none;">
-            <label for="deadlineStartDate">Start Date:</label>
+            <label for="deadlineStartDate">Start Date (default is today):</label>
             <input type="date" id="deadlineStartDate" name="deadlineStartDate" required>
             
-            <label for="deadlineEndDate">End Date:</label>
+            <label for="deadlineEndDate">Deadline date:</label>
             <input type="date" id="deadlineEndDate" name="deadlineEndDate" required>
             <div id="deadlineError" class="error-message"></div>
         </div>
