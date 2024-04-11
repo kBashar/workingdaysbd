@@ -201,6 +201,49 @@ button#calculateBtn:hover {
     background-color: #f2f2f2;
 }
 
+#calculation-mode {
+    display: flex;
+    justify-content: start;
+    margin-top: 20px;
+}
+
+.radio-button-container {
+    display: flex;
+    align-items: center; /* Center-align the items */
+    margin-right: 15px; /* Space between radio button containers */
+    cursor: pointer;
+}
+
+.radio-button-container input[type="radio"] {
+    opacity: 0; /* Visually hide the actual radio button */
+    position: absolute;
+    width: 0;
+}
+
+.radio-button-container label {
+    padding-left: 25px; /* Adjust as needed for space for the icon */
+    position: relative;
+    cursor: pointer;
+}
+
+.radio-button-container label:before {
+    content: ''; /* Add custom radio button icon */
+    width: 18px; /* Adjust as needed */
+    height: 18px; /* Adjust as needed */
+    border: 2px solid #007bff; /* Adjust color as needed */
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+}
+
+/* Style for checked state */
+.radio-button-container input[type="radio"]:checked + label:before {
+    background-color: #007bff; /* Adjust color as needed */
+}
+
 
 /* Responsive Design */
 @media (max-width: 600px) {

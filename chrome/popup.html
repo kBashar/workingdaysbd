@@ -9,13 +9,34 @@
 <body>
     <div class="container">
         <h1>Working Days Calculator</h1>
-        <label for="startDate">Start Date (default is today):</label>
-        <input type="date" id="startDate" name="startDate" required>
-        
-        <label for="daysToAdd">Number of Working Days to Add:</label>
-        <input type="number" id="daysToAdd" name="daysToAdd" min="1" required>
-        <div id="daysToAddError" class="error-message"></div>
-        
+        <div id="calculation-mode">
+            <div class="radio-button-container" onclick="document.getElementById('workingDaysMode').click();">
+                <input type="radio" id="workingDaysMode" name="calculation-mode" value="workingDays" checked>
+                <label for="workingDaysMode">Working Days</label>
+            </div>
+            <div class="radio-button-container" onclick="document.getElementById('deadlineMode').click();">
+                <input type="radio" id="deadlineMode" name="calculation-mode" value="deadline">
+                <label for="deadlineMode">Deadline</label>
+            </div>
+        </div>
+        <div id="workingDaysCalculation">
+            <label for="startDate">Start Date (default is today):</label>
+            <input type="date" id="startDate" name="startDate" required>
+            
+            <label for="daysToAdd">Number of Working Days to Add:</label>
+            <input type="number" id="daysToAdd" name="daysToAdd" min="1" required>
+            <div id="daysToAddError" class="error-message"></div>
+        </div>
+
+        <div id="deadlineCalculation" style="display: none;">
+            <label for="deadlineStartDate">Start Date (default is today):</label>
+            <input type="date" id="deadlineStartDate" name="deadlineStartDate" required>
+            
+            <label for="deadlineEndDate">Deadline date:</label>
+            <input type="date" id="deadlineEndDate" name="deadlineEndDate" required>
+            <div id="deadlineError" class="error-message"></div>
+        </div>
+
         <div id="weekendSelection" class="weekend-selection">
             <label>Select Weekends:</label>
             <div class="weekend-buttons">
