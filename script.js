@@ -41,7 +41,8 @@ function calculateDeadline(){
     const results = calculateDeadlineDetailed(startDate, deadlineEndDate, Object.keys(publicHolidays), weekends);
     
     const workingDaysStr = workingDaysCountStr(results.workingDaysCount)
-    showResults(workingDaysStr, results.weekendDates, results.holidays, results.workingDates, publicHolidays);
+    setWorkingDayCount(workingDaysStr)
+    showResults(results.weekendDates, results.holidays, results.workingDates, publicHolidays);
 }
 
 function calculateWorkingDays(){
@@ -62,8 +63,9 @@ function calculateWorkingDays(){
     const results = calculateWorkingDaysDetailed(startDate, daysToAdd, Object.keys(publicHolidays), weekends, publicHolidays);
     
     const formattedResultDate = formatDate(results.resultDate);
-    const result_date_str = resultDateStr(formattedResultDate)
-    showResults(result_date_str, results.weekendDates, results.holidays, results.workingDates, publicHolidays);
+    const result_date_str = resultDateContainer(formattedResultDate);
+    setResultDateAndAlarmButton(result_date_str)
+    showResults(results.weekendDates, results.holidays, results.workingDates, publicHolidays);
 }
 
 function formatDate(isoString) {
@@ -142,15 +144,51 @@ function workingDaysCountStr(day_count){
     return result_date_str
 }
 
-function resultDateStr(resultDate){
+function resultDateContainer(resultDate){
     const dayName = new Date(formatDate(resultDate)).toLocaleDateString('en-US', { weekday: 'long' });
     const result_date_str = `${formatDate(resultDate)} (${dayName})`
     return result_date_str
 }
 
-function showResults(result_str, weekendDates, holidays, workingDates, holidaysData) {
+function setResultDateAndAlarmButton(resultDateString) {
+    const resultDateDiv = document.getElementById('resultDate');
 
-    document.getElementById('resultDate').textContent = result_str;
+    // Clear the previous content
+    resultDateDiv.innerHTML = '';
+
+    // Create the span element for the result date text
+    const resultTextSpan = document.createElement('span');
+    resultTextSpan.id = 'resultText';
+    resultTextSpan.textContent = resultDateString;
+
+    // Create the button element for adding an alarm
+    const addAlarmButton = document.createElement('button');
+    addAlarmButton.id = 'addAlarmBtn';
+    addAlarmButton.textContent = 'Add to Calendar';
+    addAlarmButton.addEventListener('click', function() {
+        downloadICS(resultDateString);
+    });
+
+    // Append the new elements to the result date container
+    resultDateDiv.appendChild(resultTextSpan);
+    resultDateDiv.appendChild(addAlarmButton);
+}
+
+function setWorkingDayCount(days){
+    const resultDateDiv = document.getElementById('resultDate');
+
+    // Clear the previous content
+    resultDateDiv.innerHTML = '';
+
+    // Create the span element for the result date text
+    const resultTextSpan = document.createElement('span');
+    resultTextSpan.id = 'resultText';
+    resultTextSpan.textContent = days;
+    resultDateDiv.appendChild(resultTextSpan)
+
+}
+
+function showResults(weekendDates, holidays, workingDates, holidaysData) {
 
     // Clear previous details
     const detailsContainer = document.getElementById('detailsContainer');
@@ -253,5 +291,10 @@ function handleModeChange(event) {
         document.getElementById('deadlineStartDate').valueAsDate = new Date();
         selectedMode = "deadline"
     }
-    // Reset or adjust other UI elements as necessary
+    clearResults()
+}
+
+function clearResults() {
+    document.getElementById('resultDate').innerHTML = '';
+    document.getElementById('detailsContainer').innerHTML = '';
 }

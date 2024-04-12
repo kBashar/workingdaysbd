@@ -242,6 +242,30 @@ button#calculateBtn:hover {
     background-color: #007bff; /* Adjust color as needed */
 }
 
+.result-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 24px;
+    text-align: left;
+}
+
+#addAlarmBtn {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px; /* Ensure some space between the date and the button */
+}
+
+#addAlarmBtn:hover {
+    background-color: #0056b3;
+}
+
 
 
 @media (max-width: 600px) {
