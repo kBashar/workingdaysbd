@@ -64,7 +64,7 @@ function calculateWorkingDays(){
     
     const formattedResultDate = formatDate(results.resultDate);
     const result_date_str = resultDateContainer(formattedResultDate);
-    setResultDateAndAlarmButton(result_date_str)
+    setResultDate(result_date_str)
     showResults(results.weekendDates, results.holidays, results.workingDates, publicHolidays);
 }
 
@@ -150,7 +150,7 @@ function resultDateContainer(resultDate){
     return result_date_str
 }
 
-function setResultDateAndAlarmButton(resultDateString) {
+function setResultDate(resultDateString) {
     const resultDateDiv = document.getElementById('resultDate');
 
     // Clear the previous content
@@ -161,17 +161,7 @@ function setResultDateAndAlarmButton(resultDateString) {
     resultTextSpan.id = 'resultText';
     resultTextSpan.textContent = resultDateString;
 
-    // Create the button element for adding an alarm
-    const addAlarmButton = document.createElement('button');
-    addAlarmButton.id = 'addAlarmBtn';
-    addAlarmButton.textContent = 'Add to Calendar';
-    addAlarmButton.addEventListener('click', function() {
-        downloadICS(resultDateString);
-    });
-
-    // Append the new elements to the result date container
     resultDateDiv.appendChild(resultTextSpan);
-    resultDateDiv.appendChild(addAlarmButton);
 }
 
 function setWorkingDayCount(days){
